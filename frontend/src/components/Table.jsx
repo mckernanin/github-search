@@ -1,0 +1,54 @@
+import React from "react";
+import propTypes from "prop-types";
+import ReactTable from "react-table";
+import styled from "styled-components";
+import "react-table/react-table.css";
+
+const TableStyles = styled.div`
+  .ReactTable .rt-thead.-header {
+    box-shadow: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .ReactTable .rt-thead {
+    .rt-tr,
+    .rt-td {
+      text-align: left;
+      padding: 0.25em;
+    }
+  }
+`;
+
+const NotFoundMessage = styled.p`
+  display: block;
+  margin: 2em 0 !important;
+`;
+
+const Table = ({ columns, data, notFoundMessage }) => {
+  console.log(data);
+  if (!data || data.length === 0) {
+    return <NotFoundMessage>{notFoundMessage}</NotFoundMessage>;
+  }
+  return (
+    <TableStyles>
+      <ReactTable
+        defaultPageSize={data.length}
+        showPagination={false}
+        columns={columns}
+        data={data}
+      />
+    </TableStyles>
+  );
+};
+
+Table.propTypes = {
+  columns: propTypes.arrayOf(propTypes.object).isRequired,
+  data: propTypes.arrayOf(propTypes.object).isRequired,
+  notFoundMessage: propTypes.string
+};
+
+Table.defaultProps = {
+  notFoundMessage: "Nothing to display"
+};
+
+export default Table;
